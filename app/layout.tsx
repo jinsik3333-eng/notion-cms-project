@@ -15,8 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Claude Next.js Starters",
-  description: "모던 Next.js 웹 스타터킷",
+  title: {
+    default: "ResumeLens - AI 자소서 분석 서비스",
+    template: "%s | ResumeLens",
+  },
+  description:
+    "Claude AI로 자소서를 5가지 관점(논리구조, 직무적합성, 차별성, 문장력, 면접관 시선)에서 분석하여 합격 가능성을 높이세요.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -34,7 +38,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
-          <Toaster />
+          <Toaster richColors position="top-center" />
         </ThemeProvider>
       </body>
     </html>

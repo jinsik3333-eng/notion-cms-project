@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
  * 404 Not Found 페이지
  */
 export const metadata = {
-  title: "페이지를 찾을 수 없습니다 | Claude Next.js Starters",
+  title: "페이지를 찾을 수 없습니다 | ResumeLens",
   description: "요청한 페이지가 존재하지 않습니다",
 };
 
@@ -28,21 +28,9 @@ export default function NotFound() {
           <Link href="/">
             <Button>홈으로 돌아가기</Button>
           </Link>
-          <Link href="/contact">
-            <Button variant="outline">문의하기</Button>
+          <Link href="/analyze">
+            <Button variant="outline">자소서 분석하기</Button>
           </Link>
-        </div>
-
-        <div className="pt-4 border-t">
-          <p className="text-sm text-muted-foreground">
-            도움이 필요하신가요?{" "}
-            <Link
-              href="/contact"
-              className="text-blue-600 hover:underline font-medium"
-            >
-              저희에게 문의하세요
-            </Link>
-          </p>
         </div>
       </div>
     </div>

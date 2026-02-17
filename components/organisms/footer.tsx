@@ -6,7 +6,8 @@ import { footerNav, mainNav } from "@/lib/constants/nav";
 /**
  * 푸터 (Organism)
  *
- * - Logo + 링크 + 저작권
+ * - Logo + 서비스 링크 + 저작권
+ * - ResumeLens 브랜드
  */
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -16,10 +17,10 @@ export function Footer() {
       <div className="container mx-auto max-w-7xl px-4 py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           {/* 브랜드 소개 */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="col-span-2 md:col-span-2">
             <Logo variant="light" />
-            <p className="mt-2 text-sm text-muted-foreground">
-              모던 Next.js 웹 스타터킷
+            <p className="mt-2 text-sm text-muted-foreground max-w-xs">
+              Claude AI로 자소서를 5가지 관점에서 분석하여 합격 가능성을 높이는 서비스입니다.
             </p>
           </div>
 
@@ -47,7 +48,7 @@ export function Footer() {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} Claude Next.js Starters. 모든 권리 보유.
+            &copy; {currentYear} ResumeLens. 모든 권리 보유.
           </p>
           <div className="flex gap-4">
             {mainNav.map((item) => (

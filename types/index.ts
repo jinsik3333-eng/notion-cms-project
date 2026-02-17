@@ -26,10 +26,44 @@ export interface SiteConfig {
   };
 }
 
-export interface User {
+/**
+ * Notion PricingPlan 타입 (F004)
+ */
+export interface PricingPlan {
   id: string;
   name: string;
-  email: string;
-  avatar?: string;
-  role?: string;
+  price: number;
+  features: string[];
+  description: string;
+  isPopular: boolean;
+  order: number;
+}
+
+/**
+ * Notion Testimonial 타입 (F004)
+ */
+export interface Testimonial {
+  id: string;
+  author: string;
+  content: string;
+  rating: number;
+  company?: string;
+  jobRole?: string;
+  submittedAt: string;
+  isVerified: boolean;
+  order: number;
+}
+
+/**
+ * Notion ContentPage 타입 (F004)
+ */
+export interface ContentPage {
+  id: string;
+  pageName: string;
+  slug: string;
+  content: string;
+  metaDescription: string;
+  publishedAt: string;
+  updatedAt: string;
+  isPublished: boolean;
 }

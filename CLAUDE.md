@@ -1,19 +1,62 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+이 파일은 Claude Code가 이 저장소에서 작업할 때 따라야 할 개발 지침입니다.
+
+## ResumeLens 프로젝트 소개
+
+**ResumeLens**는 Claude AI로 자소서를 5가지 관점(논리구조, 직무적합성, 차별성, 문장력, 면접관 시선)에서 동시 분석하고 개선점을 제시하는 서비스입니다. Notion CMS를 활용하여 비개발자도 마케팅 콘텐츠를 관리할 수 있습니다.
+
+**상세 요구사항**: @docs/PRD.md 참조
+
+---
+
+## 📋 Project Context
+
+프로젝트 진행 시 다음 문서들을 참고하세요:
+
+- **@docs/PRD.md** - 상세 요구사항, 기능 명세(F001~F011), 기술 스택, API 통합 전략
+- **@docs/ROADMAP.md** - 개발 로드맵, 5개 Phase별 Task 분해, 일정 계획, 성공 지표
+
+---
+
+### 핵심 페이지 구조 (6개)
+
+| 경로 | 설명 | 핵심 기능 |
+|------|------|----------|
+| `/` | 랜딩 페이지 | F001, F002, F003, F004 |
+| `/analyze` | 자소서 분석 입력 | F001, F002, F011 |
+| `/result` | 분석 결과 표시 | F002, F003, F011 |
+| `/about` | 서비스 소개 (Notion CMS) | F004, F010 |
+| `/pricing` | 가격표 (Notion CMS) | F004, F010 |
+| `/testimonials` | 후기 (Notion CMS) | F004, F010 |
+
+### 분석 결과 타입 (핵심)
+
+분석 결과 데이터 구조는 `lib/types/analysis.ts`에 정의됩니다.
+- 5가지 카테고리: `logicStructure`, `jobSuitability`, `differentiation`, `writingQuality`, `interviewerPerspective`
+- 각 카테고리: `score(0-100)`, `feedback(string)`, `suggestions(string[])`
+- Zustand store: `stores/analysis-store.ts` (클라이언트 메모리에만 저장)
+
+### API 엔드포인트 (구현 예정)
+
+- **자소서 분석**: `POST /api/analyze-resume` (Claude API 연동)
+- **Notion 데이터**: `GET /api/notion/pricing`, `GET /api/notion/testimonials`, `GET /api/notion/content/[slug]`
+
+---
 
 ## Project Overview
 
-Modern Next.js 16 + React 19 starter kit with Atomic Design pattern, shadcn/ui, and TypeScript. The project implements a marketing website with authentication and dashboard functionality.
+ResumeLens: Next.js 15 + React 19 with Atomic Design pattern, shadcn/ui, and TypeScript. The project implements a self-contained AI resume analysis service with Notion CMS integration.
 
 **Tech Stack:**
-- Next.js 16 (App Router), React 19, TypeScript 5
+- Next.js 15 (App Router), React 19, TypeScript 5.6+
 - Styling: Tailwind CSS 4 + shadcn/ui
 - Forms: React Hook Form + Zod for validation
 - State Management: Zustand
 - Notifications: Sonner
 - Icons: Lucide React
 - Theme: next-themes (light/dark mode)
+- APIs: Claude API (Anthropic), Notion API
 
 ---
 
@@ -40,9 +83,13 @@ npm run lint -- --fix  # Auto-fix linting issues
 
 ```
 app/                          # Next.js App Router
-├── (auth)/                   # Auth route group (login, signup)
-├── (marketing)/              # Public pages (home, about, contact, docs, etc.)
-├── (dashboard)/              # Protected dashboard pages (settings, profile)
+├── (marketing)/              # ResumeLens 공개 페이지 (마케팅 + 분석 기능)
+│   ├── page.tsx              # 랜딩 페이지 (/)
+│   ├── analyze/page.tsx      # 자소서 분석 입력 (/analyze)
+│   ├── result/page.tsx       # 분석 결과 표시 (/result)
+│   ├── about/page.tsx        # 서비스 소개 (/about)
+│   ├── pricing/page.tsx      # 가격표 (/pricing)
+│   └── testimonials/page.tsx # 후기 (/testimonials)
 ├── layout.tsx                # Root layout with header, footer, theme provider
 └── not-found.tsx             # 404 page
 
@@ -56,9 +103,12 @@ components/                   # Atomic Design hierarchy
 lib/
 ├── utils.ts                  # Utility functions (cn() for Tailwind classes)
 ├── constants/
-│   ├── nav.ts               # Navigation configuration
-│   └── site.ts              # Site metadata
-└── validations/             # Zod schemas for forms (auth.ts, contact.ts)
+│   ├── nav.ts               # Navigation configuration (홈, 서비스소개, 가격표, 후기)
+│   └── site.ts              # Site metadata (ResumeLens)
+├── validations/
+│   └── resume.ts            # 자소서 입력 검증 스키마 (50-5000자)
+└── types/
+    └── analysis.ts          # 분석 결과 타입 정의 (Claude API Response)
 
 types/                       # Global TypeScript definitions
 ```
@@ -75,9 +125,8 @@ types/                       # Global TypeScript definitions
 
 ### Route Groups
 
-- `(auth)` - Login/Signup pages with AuthLayout
-- `(marketing)` - Public pages with DefaultLayout and Header/Footer
-- `(dashboard)` - Protected dashboard with DashboardLayout and Sidebar
+- `(marketing)` - ResumeLens 모든 공개 페이지 (DefaultLayout: Header + Footer)
+  - MVP 범위: 인증/대시보드 없음 (MVP 이후 추가 예정)
 
 ---
 
@@ -232,15 +281,19 @@ export const metadata = {
 
 ---
 
-## Recent Changes & Bug Fixes
+## 변경 이력
 
-### Fixed Issues (Latest)
-- CTA button visibility improved (added `bg-transparent` class)
-- TypeScript type errors fixed (React ComponentType import)
-- Settings page refactored with shadcn/ui components
-- Form password fields now properly wrapped in `<form>` tags
-- Form inputs now support browser autocomplete with `autoComplete` attribute
-- Removed unused imports to clean up code
+### 초기화 완료 (ResumeLens MVP 기준)
+- 스타터킷 데모 페이지 제거 (about, contact, docs, faq, privacy, terms)
+- (auth), (dashboard) 라우트 그룹 제거 (MVP 이후 추가 예정)
+- ResumeLens 6개 페이지 구조 생성
+- nav.ts: 홈, 서비스소개, 가격표, 후기 메뉴로 교체
+- site.ts: ResumeLens 브랜드 정보로 교체
+- Header: UserMenu 제거, 분석 시작 CTA 버튼 추가
+- lib/types/analysis.ts: 분석 결과 타입 정의 추가
+- lib/validations/resume.ts: 자소서 입력 검증 스키마 추가
+- stores/analysis-store.ts: 분석 결과 Zustand store 추가
+- .env.local.example: 환경 변수 템플릿 추가
 
 ---
 

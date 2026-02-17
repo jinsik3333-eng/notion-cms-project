@@ -1,17 +1,16 @@
 import type { SiteConfig } from "@/types";
 
 /**
- * 사이트 기본 설정 상수
+ * ResumeLens 사이트 기본 설정 상수
  */
 export const siteConfig: SiteConfig = {
-  name: "Claude Next.js Starters",
-  description: "모던 Next.js 웹 스타터킷 - Atomic Design, shadcn/ui, TypeScript",
-  url: "https://claude-nextjs-starters.vercel.app",
-  ogImage: "https://claude-nextjs-starters.vercel.app/og-image.png",
-  mailSupport: "support@example.com",
+  name: "ResumeLens",
+  description:
+    "Claude AI로 자소서를 5가지 관점(논리구조, 직무적합성, 차별성, 문장력, 면접관 시선)에서 분석하여 합격 가능성을 높이세요.",
+  url: "https://resumelens.vercel.app",
+  ogImage: "https://resumelens.vercel.app/og-image.png",
+  mailSupport: "support@resumelens.kr",
   links: {
-    twitter: "https://twitter.com/anthropics",
-    github: "https://github.com/anthropics/claude-code",
-    linkedin: "https://linkedin.com/company/anthropic",
+    github: "https://github.com/resumelens",
   },
 };

@@ -1,83 +1,66 @@
-import {
-  Home,
-  Settings,
-  BarChart3,
-  FileText,
-  HelpCircle,
-  Mail,
-} from "lucide-react";
+import { Home, BookOpen, DollarSign, Star } from "lucide-react";
 import type { NavItem } from "@/types";
 
 /**
- * 메인 네비게이션 항목
+ * ResumeLens 메인 네비게이션 항목
+ * PRD 메뉴 구조: 홈, 서비스 소개, 가격표, 후기
  */
 export const mainNav: NavItem[] = [
   {
     title: "홈",
     href: "/",
-    description: "홈페이지",
+    description: "서비스 소개 및 자소서 분석 시작",
     icon: Home,
   },
   {
-    title: "정보",
+    title: "서비스 소개",
     href: "/about",
-    description: "스타터킷 정보",
+    description: "ResumeLens 기능 및 사용 방법",
+    icon: BookOpen,
   },
   {
-    title: "문의",
-    href: "/contact",
-    description: "연락 양식",
-    icon: Mail,
+    title: "가격표",
+    href: "/pricing",
+    description: "요금제 안내",
+    icon: DollarSign,
+  },
+  {
+    title: "후기",
+    href: "/testimonials",
+    description: "사용자 합격 후기",
+    icon: Star,
   },
 ];
 
 /**
- * 대시보드 사이드바 네비게이션
- */
-export const dashboardNav: NavItem[] = [
-  {
-    title: "대시보드",
-    href: "/dashboard",
-    description: "대시보드",
-    icon: BarChart3,
-  },
-  {
-    title: "설정",
-    href: "/dashboard/settings",
-    description: "사용자 설정",
-    icon: Settings,
-  },
-];
-
-/**
- * 푸터 링크
+ * 푸터 링크 (ResumeLens 용)
  */
 export const footerNav: NavItem[] = [
   {
-    title: "정책",
+    title: "서비스",
     href: "#",
     children: [
       {
-        title: "개인정보보호정책",
-        href: "/privacy",
+        title: "자소서 분석",
+        href: "/analyze",
       },
       {
-        title: "이용약관",
-        href: "/terms",
+        title: "서비스 소개",
+        href: "/about",
       },
     ],
   },
   {
-    title: "지원",
+    title: "정보",
     href: "#",
     children: [
       {
-        title: "문서",
-        href: "/docs",
+        title: "가격표",
+        href: "/pricing",
       },
       {
-        title: "FAQ",
-        href: "/faq",
+        title: "후기",
+        href: "/testimonials",
       },
     ],
   },
