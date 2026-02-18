@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { LoadingSpinner } from "@/components/atoms/loading-spinner";
 import { resumeSchema, type ResumeInput } from "@/lib/validations/resume";
+import { useAnalysisStore } from "@/stores/analysis-store";
 import { cn } from "@/lib/utils";
 
 // 분석 진행 단계 메시지 (F011: 로딩 상태 표시)
@@ -37,10 +38,13 @@ const ANALYSIS_STEPS = [
  */
 export function ResumeAnalyzeForm() {
   const router = useRouter();
+  const setAnalysisResult = useAnalysisStore((state) => state.setAnalysisResult);
   // 분석 로딩 상태
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   // 현재 분석 단계 메시지 인덱스
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  // AbortController 참조 (취소 기능용)
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const form = useForm<ResumeInput>({
     resolver: zodResolver(resumeSchema),
@@ -73,26 +77,63 @@ export function ResumeAnalyzeForm() {
     // 분석 단계 메시지 순환 시작
     const stepTimer = startStepRotation();
 
-    try {
-      // TODO: Claude API 연동 구현 예정 (Phase 1)
-      // const response = await fetch("/api/analyze-resume", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ resumeText: data.resumeText }),
-      // });
+    // AbortController 생성
+    abortControllerRef.current = new AbortController();
 
-      // 개발 중 임시 딜레이 (실제 API 연동 전)
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+    try {
+      // Gemini API 호출
+      const response = await fetch("/api/analyze-resume", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resumeText: data.resumeText }),
+        signal: abortControllerRef.current.signal,
+      });
+
+      // 응답 파싱
+      const result = await response.json();
+
+      if (!response.ok) {
+        // 에러 응답 처리
+        if (response.status === 429) {
+          toast.error(
+            result.error || "요청이 너무 많습니다. 30초 후 다시 시도해주세요."
+          );
+        } else if (response.status === 400) {
+          toast.error(result.error || "자소서 입력이 올바르지 않습니다.");
+        } else if (response.status >= 500) {
+          toast.error(
+            result.error || "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+          );
+        } else {
+          toast.error(result.error || "분석에 실패했습니다.");
+        }
+        return;
+      }
+
+      if (!result.success || !result.data) {
+        toast.error("분석 결과를 받을 수 없습니다.");
+        return;
+      }
+
+      // Zustand store에 분석 결과 저장
+      setAnalysisResult(result.data);
 
       toast.success("분석이 완료되었습니다!");
       // 분석 결과 페이지로 이동
       router.push("/result");
     } catch (error) {
+      // 취소된 요청
+      if (error instanceof Error && error.name === "AbortError") {
+        console.log("분석이 취소되었습니다.");
+        return;
+      }
+
       console.error("분석 요청 실패:", error);
       toast.error("분석 중 오류가 발생했습니다. 다시 시도해 주세요.");
     } finally {
       clearInterval(stepTimer);
       setIsAnalyzing(false);
+      abortControllerRef.current = null;
     }
   }
 
@@ -100,6 +141,9 @@ export function ResumeAnalyzeForm() {
    * 분석 취소 핸들러
    */
   function handleCancel() {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
     setIsAnalyzing(false);
     toast.info("분석이 취소되었습니다.");
   }

@@ -1,12 +1,10 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { PageWrapper } from "@/components/templates/page-wrapper";
 import { AnalysisResultView } from "@/components/organisms/analysis-result-view";
-
-export const metadata: Metadata = {
-  title: "분석 결과 | ResumeLens",
-  description:
-    "5가지 관점의 자소서 분석 결과를 확인하고 개선 제안을 받아보세요.",
-};
+import { useAnalysisStore } from "@/stores/analysis-store";
 
 /**
  * 분석 결과 페이지
@@ -15,6 +13,16 @@ export const metadata: Metadata = {
  * F011: 로딩 상태 표시
  */
 export default function ResultPage() {
+  const router = useRouter();
+  const analysisResult = useAnalysisStore((state) => state.analysisResult);
+
+  // 분석 결과가 없으면 홈으로 리다이렉트
+  useEffect(() => {
+    if (!analysisResult) {
+      router.replace("/");
+    }
+  }, [analysisResult, router]);
+
   return (
     <PageWrapper>
       <div className="space-y-6">
@@ -26,7 +34,7 @@ export default function ResultPage() {
         </div>
 
         {/* 분석 결과 뷰 컴포넌트 (Organism) */}
-        <AnalysisResultView />
+        <AnalysisResultView result={analysisResult || undefined} />
       </div>
     </PageWrapper>
   );
