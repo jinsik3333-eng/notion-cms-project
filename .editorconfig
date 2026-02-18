@@ -1,0 +1,17 @@
+# EditorConfig 설정 - IDE 간 일관된 코드 스타일 유지
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{js,jsx,ts,tsx,json}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false

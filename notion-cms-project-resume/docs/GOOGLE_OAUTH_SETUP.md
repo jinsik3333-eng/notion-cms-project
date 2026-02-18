@@ -1,6 +1,7 @@
 # Google OAuth 설정 가이드
 
 Google 로그인 기능을 활성화하려면 두 가지 작업이 필요합니다:
+
 1. Google Cloud Console에서 OAuth 자격증명 생성
 2. Supabase Dashboard에서 Google Provider 활성화
 
@@ -86,6 +87,7 @@ npm run dev
 ## 프로덕션 배포 시 추가 설정
 
 Vercel 배포 시 Google Cloud Console에서 프로덕션 도메인도 추가 필요:
+
 ```
 https://your-production-domain.vercel.app/auth/callback
 ```
@@ -97,6 +99,7 @@ https://your-production-domain.vercel.app/auth/callback
 ### "redirect_uri_mismatch" 에러
 
 Google Cloud Console의 **승인된 리디렉션 URI**가 정확히 일치하지 않을 때 발생합니다.
+
 - Supabase 콜백 URL: `https://[project-id].supabase.co/auth/v1/callback`
 - 로컬 콜백 URL: `http://localhost:3000/auth/callback`
 
@@ -108,10 +111,13 @@ OAuth 동의 화면이 **테스트 모드**일 때 등록되지 않은 Google �
 ### 프로필이 생성되지 않는 경우
 
 Supabase Dashboard > SQL Editor에서 확인:
+
 ```sql
 SELECT * FROM profiles ORDER BY created_at DESC LIMIT 5;
 ```
+
 `handle_new_user` 트리거가 실행되지 않았다면 수동으로 마이그레이션 적용:
+
 ```bash
 # 마이그레이션 파일 위치
 supabase/migrations/20260219_update_handle_new_user_for_oauth.sql
