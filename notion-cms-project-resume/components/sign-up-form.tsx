@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { createProfile } from "@/lib/supabase/profile";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,14 +41,32 @@ export function SignUpForm({
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      // 1. 사용자 회원가입
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/protected`,
         },
       });
-      if (error) throw error;
+      if (signUpError) throw signUpError;
+
+      // 2. 사용자 ID를 받았는지 확인
+      if (!authData.user?.id) {
+        throw new Error("Failed to get user ID");
+      }
+
+      // 3. 프로필 자동 생성
+      const { error: profileError } = await createProfile(
+        supabase,
+        authData.user.id,
+        email
+      );
+      if (profileError) {
+        console.warn("프로필 생성 중 오류 발생:", profileError);
+        // 프로필 생성 실패는 경고만 하고 진행 (프로필은 트리거로도 생성됨)
+      }
+
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
