@@ -1,7 +1,21 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
-import { hasEnvVars } from "../utils";
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
+import { hasEnvVars } from '../utils';
 
+/**
+ * Supabase 세션 갱신 + 보호된 라우트 접근 제어
+ *
+ * Next.js 16 Fluid Compute에서는 proxy.ts를 사용합니다.
+ * (middleware.ts 대신 - 두 파일이 동시에 존재하면 빌드 에러 발생)
+ *
+ * 역할:
+ * 1. 모든 요청에서 Supabase 세션 토큰을 자동 갱신 (필수)
+ * 2. /protected/* 접근 시 미인증 사용자를 로그인 페이지로 리다이렉트
+ * 3. 이미 로그인한 사용자가 /auth/login, /auth/sign-up 접근 시 보호된 홈으로 리다이렉트
+ *
+ * 주의: createServerClient와 auth.getClaims() 사이에 코드를 추가하지 말 것.
+ * 세션이 임의로 종료되는 버그 발생 가능.
+ */
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -24,18 +38,16 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
-          );
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
             request,
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options),
+            supabaseResponse.cookies.set(name, value, options)
           );
         },
       },
-    },
+    }
   );
 
   // Do not run code between createServerClient and
@@ -47,16 +59,28 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
-  if (
-    request.nextUrl.pathname !== "/" &&
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.redirect(url);
+  const { pathname } = request.nextUrl;
+
+  // 보호된 라우트: 미인증 사용자를 로그인 페이지로 리다이렉트
+  const isProtectedRoute =
+    pathname.startsWith('/protected') || pathname.startsWith('/dashboard');
+
+  if (isProtectedRoute) {
+    if (!user) {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = '/auth/login';
+      // 로그인 후 원래 페이지로 돌아오기 위해 next 파라미터 추가
+      loginUrl.searchParams.set('next', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  // 인증된 사용자가 로그인/회원가입 페이지 접근 시 보호된 홈으로 리다이렉트
+  const authOnlyPaths = ['/auth/login', '/auth/sign-up'];
+  if (authOnlyPaths.includes(pathname) && user) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/protected';
+    return NextResponse.redirect(redirectUrl);
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.

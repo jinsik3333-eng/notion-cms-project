@@ -10,14 +10,14 @@
 
 ### 설치된 개발 도구
 
-| 도구 | 버전 | 상태 | 설명 |
-|------|------|------|------|
-| **ESLint** | 9.x | ✅ 설정됨 | 코드 품질 검사 |
-| **Prettier** | 3.x | ✅ 설정됨 | 코드 자동 포매팅 |
-| **TypeScript** | 5.x | ✅ 설정됨 | 정적 타입 검사 |
-| **Husky** | 9.x | ✅ 설정됨 | Git Hooks 자동화 |
+| 도구            | 버전 | 상태      | 설명                |
+| --------------- | ---- | --------- | ------------------- |
+| **ESLint**      | 9.x  | ✅ 설정됨 | 코드 품질 검사      |
+| **Prettier**    | 3.x  | ✅ 설정됨 | 코드 자동 포매팅    |
+| **TypeScript**  | 5.x  | ✅ 설정됨 | 정적 타입 검사      |
+| **Husky**       | 9.x  | ✅ 설정됨 | Git Hooks 자동화    |
 | **lint-staged** | 16.x | ✅ 설정됨 | 커밋 전 검사 자동화 |
-| **commitlint** | 20.x | ✅ 설정됨 | 커밋 메시지 검사 |
+| **commitlint**  | 20.x | ✅ 설정됨 | 커밋 메시지 검사    |
 
 ---
 
@@ -81,6 +81,7 @@ npm run prepare                # Husky 초기화
 **설정 방식**: CommonJS (eslint.config.js)
 
 **활성화 규칙**:
+
 - ✅ `strict: true` TypeScript 엄격 모드
 - ✅ `no-explicit-any` 금지 (any 타입 사용 불가)
 - ✅ `no-unused-vars` 사용하지 않는 변수 감지
@@ -89,6 +90,7 @@ npm run prepare                # Husky 초기화
 - ✅ `eqeqeq: always` === 강제
 
 **커스터마이징 가능한 규칙**:
+
 ```javascript
 // eslint.config.js의 rules 객체
 '@typescript-eslint/explicit-function-return-types': 'warn'  // 함수 반환형 명시 권고
@@ -99,6 +101,7 @@ npm run prepare                # Husky 초기화
 ### 2️⃣ Prettier (코드 포매팅)
 
 **설정**:
+
 ```json
 {
   "semi": true,
@@ -116,12 +119,14 @@ npm run prepare                # Husky 초기화
 ### 3️⃣ TypeScript (타입 검사)
 
 **활성화 옵션** (tsconfig.json):
+
 - ✅ `"strict": true` - 모든 strict 검사 활성화
 - ✅ `"noEmit": true` - 컴파일 파일 생성 안 함
 - ✅ `"isolatedModules": true` - 각 파일을 독립적으로 변환
 - ✅ `"incremental": true` - 증분 빌드 (빌드 시간 단축)
 
 **경로 별칭**:
+
 ```json
 "@/*": ["./*"]  // @/components → ./components
 ```
@@ -129,16 +134,19 @@ npm run prepare                # Husky 초기화
 ### 4️⃣ Husky + lint-staged (자동화)
 
 **Pre-commit Hook** (.husky/pre-commit):
+
 ```bash
 npx lint-staged  # 스테이징된 파일만 검사
 ```
 
 **Commit-msg Hook** (.husky/commit-msg):
+
 ```bash
 npx commitlint --edit "$1"  # 커밋 메시지 검사
 ```
 
 **lint-staged 동작** (.lintstagedrc.json):
+
 - `.ts/.tsx` → ESLint 수정 + Prettier 포매팅
 - `.js/.jsx` → ESLint 수정 + Prettier 포매팅
 - `.json/.md` → Prettier 포매팅만
@@ -146,6 +154,7 @@ npx commitlint --edit "$1"  # 커밋 메시지 검사
 ### 5️⃣ commitlint (커밋 메시지 규칙)
 
 **허용 Type**:
+
 - `feat` - 새로운 기능
 - `fix` - 버그 수정
 - `docs` - 문서 변경
@@ -158,6 +167,7 @@ npx commitlint --edit "$1"  # 커밋 메시지 검사
 - `revert` - 이전 커밋 되돌림
 
 **커밋 메시지 형식**:
+
 ```
 <type>(<scope>): <subject>
 
@@ -167,6 +177,7 @@ npx commitlint --edit "$1"  # 커밋 메시지 검사
 ```
 
 **예시**:
+
 ```
 feat(resume-analysis): 공유 기능 추가
 
@@ -198,9 +209,9 @@ Closes #123
 
 ```json
 {
-  "printWidth": 120,        // 줄 길이 변경
-  "tabWidth": 4,            // 탭 크기 변경
-  "singleQuote": false      // 더블 쿼트 사용
+  "printWidth": 120, // 줄 길이 변경
+  "tabWidth": 4, // 탭 크기 변경
+  "singleQuote": false // 더블 쿼트 사용
 }
 ```
 
@@ -216,6 +227,7 @@ Closes #123
 ### 1. 레거시 .eslintrc.json 제거
 
 만약 `.eslintrc.json`이 남아있으면 제거하세요:
+
 ```bash
 rm .eslintrc.json
 ```
@@ -225,6 +237,7 @@ ESLint 9는 `eslint.config.js` (Flat Config)를 권장합니다.
 ### 2. TypeScript 타입 검사 실패
 
 타입 검사가 실패하면 `npm run validate` 전체를 통과할 수 없습니다:
+
 ```bash
 npm run type-check  # 에러 확인
 npm run lint:fix    # ESLint 수정
@@ -234,6 +247,7 @@ npm run format      # Prettier 포매팅
 ### 3. Husky Hooks 작동 확인
 
 커밋 시 자동으로 lint-staged가 실행되어야 합니다:
+
 ```bash
 git add .
 git commit -m "feat: 새로운 기능"
@@ -241,6 +255,7 @@ git commit -m "feat: 새로운 기능"
 ```
 
 만약 실행되지 않으면:
+
 ```bash
 npm run prepare  # Husky 재초기화
 ```
@@ -277,12 +292,12 @@ npm start                # 배포 전 테스트
 
 ## 📚 추가 리소스
 
-| 도구 | 공식 문서 |
-|------|----------|
-| **ESLint** | https://eslint.org |
-| **Prettier** | https://prettier.io |
-| **TypeScript** | https://www.typescriptlang.org/docs |
-| **Husky** | https://typicode.github.io/husky |
+| 도구                     | 공식 문서                           |
+| ------------------------ | ----------------------------------- |
+| **ESLint**               | https://eslint.org                  |
+| **Prettier**             | https://prettier.io                 |
+| **TypeScript**           | https://www.typescriptlang.org/docs |
+| **Husky**                | https://typicode.github.io/husky    |
 | **Conventional Commits** | https://www.conventionalcommits.org |
 
 ---
@@ -307,6 +322,7 @@ npm start                # 배포 전 테스트
 ### Q: "Cannot find module '@typescript-eslint/parser'"
 
 **해결**: ESLint가 필요한 플러그인을 찾지 못함
+
 ```bash
 npm install --save-dev @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react eslint-plugin-react-hooks
 ```
@@ -314,6 +330,7 @@ npm install --save-dev @typescript-eslint/parser @typescript-eslint/eslint-plugi
 ### Q: "ESLint 에러가 자동 수정되지 않음"
 
 **해결**: 수동 수정 필요 (기울임 등은 자동 수정 불가)
+
 ```bash
 npm run lint  # 에러 메시지 확인
 # 수동으로 코드 수정
@@ -323,6 +340,7 @@ npm run lint:fix  # 다시 시도
 ### Q: "Husky hooks 작동 안 함"
 
 **해결**: Husky 재초기화
+
 ```bash
 npm run prepare
 # 또는
@@ -332,6 +350,7 @@ npx husky install
 ### Q: "commitlint로 인해 커밋 실패"
 
 **해결**: Conventional Commits 형식 사용
+
 ```
 ✅ feat: 새로운 기능 추가
 ✅ fix: 버그 수정
@@ -346,6 +365,7 @@ npx husky install
 **상세 가이드**: `docs/DEVELOPMENT-TOOLS.md` 참조
 
 이 문서에서 더 자세한 내용을 확인할 수 있습니다:
+
 - IDE 통합 설정 (VS Code, WebStorm)
 - CI/CD 통합 (GitHub Actions)
 - 성능 최적화 팁

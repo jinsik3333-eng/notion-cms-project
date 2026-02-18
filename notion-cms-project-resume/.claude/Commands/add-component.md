@@ -1,12 +1,7 @@
 ---
 description: '새로운 React 컴포넌트를 components/ 폴더에 생성합니다'
 argument-hint: '컴포넌트 이름 (예: Button, Card, UserProfile)'
-allowed-tools:
-  [
-    'Bash(mkdir:*)',
-    'Bash(cat:*)',
-    'Write',
-  ]
+allowed-tools: ['Bash(mkdir:*)', 'Bash(cat:*)', 'Write']
 ---
 
 # Claude 명령어: Add Component
@@ -20,6 +15,7 @@ allowed-tools:
 ```
 
 **예시:**
+
 ```
 /add-component Button
 /add-component UserCard

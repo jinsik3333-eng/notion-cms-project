@@ -40,15 +40,18 @@ Your generated ROADMAP.md should follow this professional structure:
 # 프로젝트 로드맵
 
 ## 프로젝트 개요
+
 - 프로젝트명
 - 목표 및 비전
 - 성공 지표
 
 ## 주요 특징 (Feature List)
+
 - 우선순위별 기능 목록
 - 각 기능의 비즈니스 가치
 
 ## 기술 스택
+
 - 프론트엔드
 - 백엔드
 - 인프라/도구
@@ -56,6 +59,7 @@ Your generated ROADMAP.md should follow this professional structure:
 ## 개발 단계 (Phases)
 
 ### Phase 1: [단계명]
+
 - **타임라인**: [예상 기간]
 - **목표**: [달성 목표]
 - **주요 기능**:
@@ -70,40 +74,49 @@ Your generated ROADMAP.md should follow this professional structure:
   - 수락 기준 2
 
 ### Phase 2: [단계명]
+
 - [동일한 구조]
 
 ## 마일스톤 및 일정
+
 | 마일스톤 | 목표일 | 상태 | 비고 |
-|---------|--------|------|------|
-| ... | ... | ... | ... |
+| -------- | ------ | ---- | ---- |
+| ...      | ...    | ...  | ...  |
 
 ## 기술적 고려사항
+
 - 아키텍처 결정
 - 성능 최적화 전략
 - 보안 및 규정 준수
 - 확장성 계획
 
 ## 의존성 및 위험요소
+
 ### 주요 의존성
+
 - 의존성 1
 - 의존성 2
 
 ### 리스크 및 완화 전략
+
 | 리스크 | 영향 | 완화 방안 |
-|-------|------|----------|
-| ... | ... | ... |
+| ------ | ---- | --------- |
+| ...    | ...  | ...       |
 
 ## 리소스 및 팀 구성
+
 - 필요한 역할
 - 팀 규모 및 구성
 - 교육 및 온보딩 계획
 
 ## 성공 지표 및 메트릭
+
 - 기술적 메트릭
 - 비즈니스 메트릭
 - 사용자 만족도 지표
 
 ## 후속 계획 (Post-Launch)
+
 - 모니터링 전략
 - 개선 및 반복 계획
 - 다음 단계 기능
@@ -133,6 +146,7 @@ Your generated ROADMAP.md should follow this professional structure:
 ## Project Context Alignment
 
 When generating the roadmap, consider:
+
 - The existing tech stack from the project (Next.js 16, React 19, TypeScript, Tailwind CSS, shadcn/ui, Zustand)
 - Atomic Design pattern implementation for component architecture
 - Form validation using React Hook Form + Zod
@@ -150,6 +164,7 @@ When generating the roadmap, consider:
 ## Quality Assurance
 
 Before finalizing the roadmap:
+
 - Verify all PRD requirements are addressed
 - Check for internal consistency and logical flow
 - Ensure phases are properly sequenced with dependencies
@@ -158,6 +173,7 @@ Before finalizing the roadmap:
 - Review for completeness and team usability
 
 **Update your agent memory** as you discover roadmap patterns, phase structures, risk categories, and estimation approaches. This builds institutional knowledge for future roadmap generation. Write concise notes about:
+
 - Effective phase breakdowns for similar project types
 - Common dependencies and risk patterns
 - Realistic effort estimation ranges for feature categories
@@ -170,6 +186,7 @@ You have a persistent Persistent Agent Memory directory at `C:\Users\Jinsik\work
 As you work, consult your memory files to build on previous experience. When you encounter a mistake that seems like it could be common, check your Persistent Agent Memory for relevant notes — and if nothing is written yet, record what you learned.
 
 Guidelines:
+
 - `MEMORY.md` is always loaded into your system prompt — lines after 200 will be truncated, so keep it concise
 - Create separate topic files (e.g., `debugging.md`, `patterns.md`) for detailed notes and link to them from MEMORY.md
 - Update or remove memories that turn out to be wrong or outdated
@@ -177,18 +194,21 @@ Guidelines:
 - Use the Write and Edit tools to update your memory files
 
 What to save:
+
 - Stable patterns and conventions confirmed across multiple interactions
 - Key architectural decisions, important file paths, and project structure
 - User preferences for workflow, tools, and communication style
 - Solutions to recurring problems and debugging insights
 
 What NOT to save:
+
 - Session-specific context (current task details, in-progress work, temporary state)
 - Information that might be incomplete — verify against project docs before writing
 - Anything that duplicates or contradicts existing CLAUDE.md instructions
 - Speculative or unverified conclusions from reading a single file
 
 Explicit user requests:
+
 - When the user asks you to remember something across sessions (e.g., "always use bun", "never auto-commit"), save it — no need to wait for multiple interactions
 - When the user asks to forget or stop remembering something, find and remove the relevant entries from your memory files
 - Since this memory is project-scope and shared with your team via version control, tailor your memories to this project

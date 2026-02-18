@@ -16,14 +16,14 @@ ResumeLens 프로젝트의 코드 품질 및 일관성을 유지하기 위한 �
 
 ## 설치된 도구
 
-| 도구 | 버전 | 용도 |
-|------|------|------|
-| **ESLint** | 9.x | 코드 품질 검사 |
-| **Prettier** | 3.x | 코드 포매팅 |
-| **TypeScript** | 5.x | 타입 검사 |
-| **Husky** | 9.x | Git Hooks 관리 |
+| 도구            | 버전 | 용도                           |
+| --------------- | ---- | ------------------------------ |
+| **ESLint**      | 9.x  | 코드 품질 검사                 |
+| **Prettier**    | 3.x  | 코드 포매팅                    |
+| **TypeScript**  | 5.x  | 타입 검사                      |
+| **Husky**       | 9.x  | Git Hooks 관리                 |
 | **lint-staged** | 16.x | 커밋 전 스테이징된 파일만 검사 |
-| **commitlint** | 20.x | 커밋 메시지 규칙 검사 |
+| **commitlint**  | 20.x | 커밋 메시지 규칙 검사          |
 
 ---
 
@@ -36,6 +36,7 @@ ResumeLens 프로젝트의 코드 품질 및 일관성을 유지하기 위한 �
 **설정 파일**: `eslint.config.js`
 
 **적용 규칙**:
+
 - ✅ TypeScript strict 모드
 - ✅ React/Next.js 규칙
 - ✅ 명확한 타입 지정 필수 (`no-explicit-any` 금지)
@@ -57,6 +58,7 @@ npm run lint:fix
 **설정 파일**: `.prettierrc.json`
 
 **주요 설정**:
+
 - Print Width: 100자
 - Tab Width: 2칸
 - Single Quote: 사용
@@ -78,6 +80,7 @@ npm run format:check
 **설정 파일**: `tsconfig.json`
 
 **활성화된 옵션**:
+
 - `strict: true` - 모든 TypeScript 엄격 검사 활성화
 - `noEmit: true` - 컴파일 파일 생성 안 함
 - `moduleResolution: bundler` - 모듈 해석
@@ -97,6 +100,7 @@ npm run type-check:watch
 **설정 파일**: `.husky/pre-commit`, `.husky/commit-msg`
 
 **동작**:
+
 1. **pre-commit**: 커밋 전 `lint-staged` 실행
 2. **commit-msg**: 커밋 메시지 형식 검사
 
@@ -112,6 +116,7 @@ npm run prepare
 **설정 파일**: `.lintstagedrc.json`
 
 **동작**:
+
 - `.ts/.tsx` → ESLint 수정 + Prettier 포매팅
 - `.js/.jsx` → ESLint 수정 + Prettier 포매팅
 - `.json/.md` → Prettier 포매팅만
@@ -123,6 +128,7 @@ npm run prepare
 **설정 파일**: `commitlint.config.js`
 
 **허용되는 Type**:
+
 - `feat` - 새로운 기능
 - `fix` - 버그 수정
 - `docs` - 문서 변경
@@ -135,6 +141,7 @@ npm run prepare
 - `revert` - 이전 커밋 되돌림
 
 **예시 커밋 메시지**:
+
 ```
 feat: 자소서 분석 결과 공유 기능 추가
 
@@ -193,12 +200,14 @@ npm run validate  # 최종 검증
 ### ✅ 권장 커밋 워크플로우
 
 1. **기능 개발**:
+
    ```bash
    git checkout -b feat/feature-name
    npm run dev
    ```
 
 2. **코드 검사 및 정리**:
+
    ```bash
    npm run lint:fix  # ESLint 자동 수정
    npm run format    # Prettier 포매팅
@@ -206,6 +215,7 @@ npm run validate  # 최종 검증
    ```
 
 3. **변경 사항 스테이징**:
+
    ```bash
    git add .
    # 또는 선택적 추가
@@ -213,6 +223,7 @@ npm run validate  # 최종 검증
    ```
 
 4. **커밋 (Husky 자동 검사)**:
+
    ```bash
    git commit -m "feat: 새로운 기능 설명"
    # 자동으로 lint-staged 실행
@@ -258,6 +269,7 @@ npm run lint:fix
 ```
 
 **흔한 에러**:
+
 - `no-explicit-any`: `any` 타입 제거 → 명시적 타입 지정
 - `strict-boolean-expressions`: Boolean 명시적 표현 필요
 
@@ -338,12 +350,14 @@ notion-cms-project/
 ### VS Code
 
 **권장 확장프로그램**:
+
 1. **ESLint** - dbaeumer.vscode-eslint
 2. **Prettier** - esbenp.prettier-vscode
 3. **EditorConfig** - editorconfig.editorconfig
 4. **TypeScript Vue Plugin** (Vue 사용 시)
 
 **VS Code settings.json**:
+
 ```json
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",

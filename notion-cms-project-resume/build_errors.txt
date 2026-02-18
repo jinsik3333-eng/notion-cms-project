@@ -1,0 +1,18 @@
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\Jinsik\workspace\notion-cms-project\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\Jinsik\workspace\notion-cms-project\notion-cms-project-resume\package-lock.json
+
+Error: Route "/dashboard/resumes/[id]": Uncached data was accessed outside of <Suspense>. This delays the entire page from rendering, resulting in a slow user experience. Learn more: https://nextjs.org/docs/messages/blocking-route
+    at main (<anonymous>)
+    at div (<anonymous>)
+    at body (<anonymous>)
+    at html (<anonymous>)
+To get a more detailed stack trace and pinpoint the issue, try one of the following:
+  - Start the app in development mode by running `next dev`, then open "/dashboard/resumes/[id]" in your browser to investigate the error.
+  - Rerun the production build with `next build --debug-prerender` to generate better stack traces.
+Error occurred prerendering page "/dashboard/resumes/[id]". Read more: https://nextjs.org/docs/messages/prerender-error
+Export encountered an error on /(dashboard)/dashboard/resumes/[id]/page: /dashboard/resumes/[id], exiting the build.
+⨯ Next.js build worker exited with code: 1 and signal: null

@@ -7,9 +7,7 @@
     "playwright": {
       "type": "stdio",
       "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ],
+      "args": ["@playwright/mcp@latest"],
       "env": {}
     },
     "context7": {
@@ -19,24 +17,16 @@
     "sequential-thinking": {
       "type": "stdio",
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ],
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
       "env": {}
     },
     "shadcn": {
       "command": "npx",
-      "args": [
-        "shadcn@latest",
-        "mcp"
-      ]
+      "args": ["shadcn@latest", "mcp"]
     },
     "shrimp-task-manager": {
       "command": "node",
-      "args": [
-        "c:/Users/Jinsik/workspace/mcp-shrimp-task-manager/dist/index.js"
-      ],
+      "args": ["c:/Users/Jinsik/workspace/mcp-shrimp-task-manager/dist/index.js"],
       "env": {
         "DATA_DIR": "c:/Users/Jinsik/workspace/notion-cms-project/notion-cms-project-resume/shrimp_data",
         "TEMPLATES_USE": "en",

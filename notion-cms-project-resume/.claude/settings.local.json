@@ -1,9 +1,5 @@
 {
   "permissions": {
-    "allow": [
-      "mcp__supabase__list_tables",
-      "Bash(ls:*)",
-      "Skill(git:commit)"
-    ]
+    "allow": ["mcp__supabase__list_tables", "Bash(ls:*)", "Skill(git:commit)"]
   }
 }
